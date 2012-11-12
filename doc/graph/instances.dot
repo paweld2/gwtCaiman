@@ -1,0 +1,38 @@
+digraph see {
+
+subgraph clusterViews {
+	label = "Interface side"
+	View1a;
+	View1b;
+	View2a;
+	View2b;
+	Layout;
+}
+subgraph clusterPresenters {
+	label="presenters"
+	Presenter2 -> Display2 -> Action2 -> Presenter2;
+	Presenter1 -> Display1 -> Action1 -> Presenter1;
+}
+
+
+Activity;
+#ActivityContext -> Activity;
+#Activity -> FragmentA;
+#Activity -> FragmentB;
+
+Layout1;
+Layout2;
+ActivityContext -> Layout1;
+ActivityContext -> Presenter1;
+Place -> ActivityContext;
+
+
+Display2 -> View2a;
+Display2 -> View2b;
+
+
+
+Display1 -> View1a;
+Display1 -> View1b;
+
+}

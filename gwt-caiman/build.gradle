@@ -1,0 +1,53 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.6
+version = '0.4.1'
+group = 'pmsoft.gwt.caiman'
+
+repositories {
+	mavenCentral()
+	maven {
+		url "http://oss.sonatype.org/content/repositories/"
+	}
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['srcClient', 'srcServer', 'srcShared']
+        }
+    }
+    test {
+        java {
+            srcDir 'srcTest'
+        }
+    }
+}
+
+
+dependencies {
+    compile (
+        [group: 'com.google.inject', name: 'guice', version: '3.0'],
+        [group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '3.0'],
+        [group: 'com.google.inject.extensions', name: 'guice-servlet', version: '3.0'],
+        [group: 'com.google.gwt', name: 'gwt-user', version: '2.5.0'],
+        [group: 'com.google.gwt', name: 'gwt-dev', version: '2.5.0'],
+        [group: 'com.google.gwt.inject', name: 'gin', version: '2.0.0', transitive: false],
+        'com.google.guava:guava-gwt:13.0-final'
+    )
+    testCompile group: 'org.testng', name: 'testng', version: '6.1.1'
+}
+test {
+	useTestNG()
+	options {
+	}
+}
+task copyClientSource(type: Copy) {
+    from 'srcClient'
+    from 'srcShared'
+    into sourceSets.main.output.classesDir
+}
+
+jar.dependsOn copyClientSource
+
