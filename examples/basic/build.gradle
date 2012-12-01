@@ -13,7 +13,7 @@ repositories {
 sourceSets {
     main {
         java {
-            srcDirs = ['src']
+            srcDirs = ['srcClient','srcShared','srcServer']
         }
         resources {
         	srcDirs = ['resources']
@@ -37,7 +37,6 @@ test {
 	}
 }
 
-
 jar.dependsOn copyClientSource
 
 dependencies {
@@ -45,51 +44,4 @@ dependencies {
 	testCompile group: 'org.testng', name: 'testng', version: '6.1.1'
     testCompile 'org.slf4j:slf4j-simple:1.6.1'
 }
-
-gwtBuildDir = 'war'
-webAppDirName = 'war'
-
-task gwtCompile << {  
-	created = (new File(gwtBuildDir)).mkdirs()  
-	ant.java(classname:'com.google.gwt.dev.Compiler', failOnError: 'true', fork: 'true') 
-	{    
-		jvmarg(value: '-Xmx512M')    
-		arg(line: '-war ' + gwtBuildDir)
-		arg(line: '-logLevel INFO')    
-		arg(line: '-style PRETTY')    
-		arg(value: 'pmsoft.gwt.sample.GwtCaimanSample')    
-		classpath {      
-			pathElement(location: 'src')      
-			pathElement(path: configurations.compile.asPath)       
-		}  
-	}
-}
-
-task(devMode, dependsOn: 'classes', type: JavaExec) {
-    main = 'com.google.gwt.dev.DevMode'
-    classpath {
-        [ sourceSets.main.java.srcDirs, sourceSets.main.runtimeClasspath ]
-    }
-	jvmArgs '-Xrunjdwp:transport=dt_socket,address=8989,server=y,suspend=n', '-Xdebug'    
-    args '-startupUrl', 'basic.html', '-war', "$gwtBuildDir", "pmsoft.gwt.sample.GwtCaimanSample"
-}
-
-task copyResourcesToWar(type: Copy) {
-    from 'resources/content'
-    into 'war'
-}
-
-gwtCompile.dependsOn classes
-gwtCompile.dependsOn copyResourcesToWar
-devMode.dependsOn copyResourcesToWar
-war.dependsOn gwtCompile
- 
-war {
-	webInf { from 'resources/content/WEB-INF' }
-    from gwtBuildDir
-    classpath configurations.runtime
-}
-
-stopPort = 9451
-httpPort = 8163
 

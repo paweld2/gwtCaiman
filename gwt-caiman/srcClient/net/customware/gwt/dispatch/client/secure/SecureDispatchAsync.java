@@ -8,6 +8,7 @@ import net.customware.gwt.dispatch.shared.secure.InvalidSessionException;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.inject.Inject;
 
 public class SecureDispatchAsync extends AbstractSecureDispatchAsync {
 
@@ -15,6 +16,7 @@ public class SecureDispatchAsync extends AbstractSecureDispatchAsync {
 
     private final SecureSessionAccessor secureSessionAccessor;
 
+    @Inject
     public SecureDispatchAsync( ExceptionHandler exceptionHandler, SecureSessionAccessor secureSessionAccessor ) {
         super( exceptionHandler ,secureSessionAccessor);
         this.secureSessionAccessor = secureSessionAccessor;

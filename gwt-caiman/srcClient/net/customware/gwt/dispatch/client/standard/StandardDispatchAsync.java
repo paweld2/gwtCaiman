@@ -2,6 +2,8 @@ package net.customware.gwt.dispatch.client.standard;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.inject.Inject;
+
 import net.customware.gwt.dispatch.client.DispatchAsync;
 import net.customware.gwt.dispatch.server.Dispatch;
 import net.customware.gwt.dispatch.shared.AbstractDispatchAsync;
@@ -20,6 +22,7 @@ public class StandardDispatchAsync extends AbstractDispatchAsync {
 
     private static final StandardDispatchServiceAsync realService = GWT.create( StandardDispatchService.class );
 
+    @Inject
     public StandardDispatchAsync( ExceptionHandler exceptionHandler ) {
         super( exceptionHandler );
     }
