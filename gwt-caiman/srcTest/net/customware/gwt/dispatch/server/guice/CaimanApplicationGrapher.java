@@ -23,8 +23,14 @@ public class CaimanApplicationGrapher {
 		this.filename = filename;
 	}
 
-	public void runGraph() throws Exception {
-		graphGood(filename, Guice.createInjector(module));
+	public boolean runGraph() {
+		try {
+			graphGood(filename, Guice.createInjector(module));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	private void graphGood(String filename, Injector inj) throws Exception {

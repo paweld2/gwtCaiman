@@ -15,11 +15,15 @@ public class AppServletContextListener extends GuiceServletContextListener {
 		return Modules.combine(new ServerDispatchModule(), new AppActionHandlerModule());
 	}
 	
-	@Override
-	protected Injector getInjector() {
+	public static Module getFullServerSideModule(){
 		Module serverSideModule = getServerSideModule();
 		Module all = Modules.combine(serverSideModule, new ServerSessionModule(), new ServerServletModule());
-		return Guice.createInjector(all);
+		return all;
+	}
+	
+	@Override
+	protected Injector getInjector() {
+		return Guice.createInjector(getFullServerSideModule());
 	}
 
 }

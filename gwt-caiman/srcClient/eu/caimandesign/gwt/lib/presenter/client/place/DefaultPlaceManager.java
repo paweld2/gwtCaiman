@@ -77,37 +77,47 @@ public class DefaultPlaceManager implements PlaceManager {
 	private final HistoryApi history;
 	private final ActivityMachine activityMachine;
 
+	private final PlaceRegistry placeRegistry;
+
 	@Inject
 	public DefaultPlaceManager(EventBus eventBus,
 			TokenFormatter tokenFormatter, PlaceRegistry placeRegistry,
 			Provider<PlaceController> providerPlaceController,
 			HistoryApi history,
 			ActivityMachine activityMachine) {
+		this.placeRegistry = placeRegistry;
 		this.activityMachine = activityMachine;
 		this.eventBus = eventBus;
 		this.tokenFormatter = tokenFormatter;
 		this.providerPlaceController = providerPlaceController;
 		this.history = history;
-		logger.config("starting....");
-		PlaceEventHandler handler = new PlaceEventHandler();
-
-		// Register ourselves with the History API.
-		this.history.addValueChangeHandler(handler);
-
-		// Listen for manual place change events.
-		eventBus.addHandler(PlaceChangedEvent.getType(), handler);
-
-		// Listen for place revelation requests.
-		eventBus.addHandler(PlaceRevealedEvent.getType(), handler);
-
 		placeMap = new HashMap<Class<? extends CaimanPlace>, PlaceController>();
+	}
 
-		placeRegistry.loadPlaceOnManager(this);
+	private boolean init = false;
+	private void initialize() {
+		//FIXME TODO initialization cycle
+		if(! init ) {
+			logger.config("starting....");
+			PlaceEventHandler handler = new PlaceEventHandler();
 
+			// Register ourselves with the History API.
+			this.history.addValueChangeHandler(handler);
+
+			// Listen for manual place change events.
+			eventBus.addHandler(PlaceChangedEvent.getType(), handler);
+
+			// Listen for place revelation requests.
+			eventBus.addHandler(PlaceRevealedEvent.getType(), handler);
+
+			placeRegistry.loadPlaceOnManager(this);
+		}
+		this.init = true;
 	}
 
 	@Override
 	public void fireActivity(CaimanActivity activity) {
+		initialize();
 		activityMachine.pushActivity(activity);
 		ActivityController current = activityMachine.peekActivity();
 		logger.fine("top activity is " + current);
@@ -182,6 +192,7 @@ public class DefaultPlaceManager implements PlaceManager {
 	 * @return <code>true</code>
 	 */
 	public boolean fireCurrentPlace() {
+		initialize();
 		String current = history.getToken();
 		if (current != null && current.trim().length() > 0) {
 			history.fireCurrentHistoryState();
