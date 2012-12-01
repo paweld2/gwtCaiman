@@ -5,8 +5,8 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.customware.gwt.dispatch.server.guice.FakeServerModule;
 import net.customware.gwt.dispatch.server.guice.ServerDispatchModule;
-import net.customware.gwt.dispatch.server.secure.FakeServerModule;
 import net.customware.gwt.dispatch.shared.gin.TestSecureDispatchModule;
 
 import org.testng.IModuleFactory;
@@ -45,12 +45,15 @@ public class AppModuleFactory implements IModuleFactory {
 		logger.addHandler(handler);
 		logger.setLevel(Level.FINEST);
 		
+		return createApplicationModule();
+	}
+	
+	public static Module createApplicationModule(){
 		return Modules.combine(
 				new GinModuleAdapter(new AppSetupModule()),
 				new GinModuleAdapter(CaimanSetupModule.getTestModule()),
 				new GinModuleAdapter(new AppPresenterModule()),
 				new GinModuleAdapter(new TestSecureDispatchModule()),
-				new GinModuleAdapter(new AppTestSetupModule()),
 				new ServerDispatchModule(),
 				new FakeServerModule(),
 				new FakeViewModule(),

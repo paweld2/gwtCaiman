@@ -1,9 +1,7 @@
-package net.customware.gwt.dispatch.server.guice;
+package net.customware.gwt.dispatch.server.secure;
 
 import net.customware.gwt.dispatch.client.secure.SecureDispatchService;
 import net.customware.gwt.dispatch.server.Dispatch;
-import net.customware.gwt.dispatch.server.secure.ScopedSession;
-import net.customware.gwt.dispatch.server.secure.SecureSessionValidator;
 import net.customware.gwt.dispatch.shared.ServiceException;
 import net.customware.gwt.dispatch.shared.ar.Action;
 import net.customware.gwt.dispatch.shared.ar.ActionException;

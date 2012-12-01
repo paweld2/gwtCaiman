@@ -1,6 +1,6 @@
 package pmsoft.gwt.sample.server.handlers;
 
-import net.customware.gwt.dispatch.server.guice.ActionHandlerModule;
+import net.customware.gwt.dispatch.server.support.ActionHandlerModule;
 import pmsoft.gwt.sample.shared.ar.LoginAction;
 import pmsoft.gwt.sample.shared.ar.PingAction;
 

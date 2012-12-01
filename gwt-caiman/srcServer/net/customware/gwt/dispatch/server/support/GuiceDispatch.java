@@ -1,4 +1,4 @@
-package net.customware.gwt.dispatch.server.guice;
+package net.customware.gwt.dispatch.server.support;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

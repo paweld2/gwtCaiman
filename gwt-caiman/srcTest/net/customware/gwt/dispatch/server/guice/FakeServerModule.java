@@ -1,7 +1,10 @@
-package net.customware.gwt.dispatch.server.secure;
+package net.customware.gwt.dispatch.server.guice;
 
 import net.customware.gwt.dispatch.client.secure.SecureDispatchService;
-import net.customware.gwt.dispatch.server.guice.SecureDispatchServlet;
+import net.customware.gwt.dispatch.server.secure.ScopedSession;
+import net.customware.gwt.dispatch.server.secure.SecureDispatchServlet;
+import net.customware.gwt.dispatch.server.secure.SecureSession;
+import net.customware.gwt.dispatch.server.secure.SecureSessionValidator;
 
 import com.google.inject.AbstractModule;
 

@@ -21,14 +21,6 @@ public class LoginPlace extends CaimanPlace {
 		this.login = login;
 		this.mainLayout = mainLayout;
 	}
-
-//	@Override
-//	public Layout setupLayout(ActivityController context) {
-//		// FIXME make the api more elagant
-//		// context.bind(login,mainLayout.getMainPanel())
-//		login.getPresenterFlow().getDisplay().show(mainLayout.getMainPanel(), context);
-//		return mainLayout;
-//	}
 	
 	@Override
 	public Layout setupLayout(ActivityContextSupport context) {

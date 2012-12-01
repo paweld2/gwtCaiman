@@ -1,10 +1,11 @@
-package net.customware.gwt.dispatch.server.guice;
+package net.customware.gwt.dispatch.server.support;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.internal.UniqueAnnotations;
 import net.customware.gwt.dispatch.server.ActionHandler;
 import net.customware.gwt.dispatch.server.ActionHandlerRegistry;
 import net.customware.gwt.dispatch.server.Dispatch;
+import net.customware.gwt.dispatch.server.guice.ServerDispatchModule;
 import net.customware.gwt.dispatch.shared.ar.Action;
 import net.customware.gwt.dispatch.shared.ar.Result;
 

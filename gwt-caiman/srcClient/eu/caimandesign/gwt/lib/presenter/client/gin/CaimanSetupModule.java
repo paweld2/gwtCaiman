@@ -1,5 +1,7 @@
 package eu.caimandesign.gwt.lib.presenter.client.gin;
 
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.inject.client.AbstractGinModule;
 
 import eu.caimandesign.gwt.lib.presenter.client.place.DefaultPlaceManager;
@@ -19,13 +21,11 @@ public class CaimanSetupModule extends AbstractGinModule {
 	private final Class<? extends HistoryApi> historyApiClass;
 
 	public CaimanSetupModule() {
-		this(DefaultPlaceManager.class, ParameterTokenFormatter.class,
-				HistoryClientApi.class);
+		this(DefaultPlaceManager.class, ParameterTokenFormatter.class,HistoryClientApi.class);
 	}
 
 	public static CaimanSetupModule getTestModule() {
-		return new CaimanSetupModule(DefaultPlaceManager.class,
-				ParameterTokenFormatter.class, HistorySharedApi.class);
+		return new CaimanSetupModule(DefaultPlaceManager.class,ParameterTokenFormatter.class, HistorySharedApi.class);
 	}
 
 	public CaimanSetupModule(Class<? extends PlaceManager> placeManagerClass,
@@ -41,7 +41,8 @@ public class CaimanSetupModule extends AbstractGinModule {
 		bind(TokenFormatter.class).to(tokenFormatterClass);
 		bind(PlaceManager.class).to(placeManagerClass).asEagerSingleton();
 		bind(HistoryApi.class).to(historyApiClass).asEagerSingleton();
-//		bind(placeManagerClass).asEagerSingleton();
+		bind(EventBus.class).to(SimpleEventBus.class).asEagerSingleton();
+
 	}
 
 	@Override

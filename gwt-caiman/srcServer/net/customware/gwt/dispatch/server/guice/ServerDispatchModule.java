@@ -7,6 +7,9 @@ import net.customware.gwt.dispatch.server.ActionHandlerRegistry;
 import net.customware.gwt.dispatch.server.DefaultActionHandlerRegistry;
 import net.customware.gwt.dispatch.server.Dispatch;
 import net.customware.gwt.dispatch.server.InstanceActionHandlerRegistry;
+import net.customware.gwt.dispatch.server.support.ActionHandlerLinker;
+import net.customware.gwt.dispatch.server.support.ActionHandlerModule;
+import net.customware.gwt.dispatch.server.support.GuiceDispatch;
 
 /**
  * This module will configure the implementation for the {@link Dispatch} and

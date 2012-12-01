@@ -1,7 +1,6 @@
-package net.customware.gwt.dispatch.server.guice;
+package net.customware.gwt.dispatch.server.standard;
 
 import net.customware.gwt.dispatch.server.Dispatch;
-import net.customware.gwt.dispatch.server.standard.AbstractStandardDispatchServlet;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
