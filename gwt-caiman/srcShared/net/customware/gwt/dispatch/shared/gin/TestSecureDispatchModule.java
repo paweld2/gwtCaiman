@@ -19,22 +19,4 @@ public class TestSecureDispatchModule extends AbstractGinModule{
 		bind(SecureDispatchServiceAsync.class).to(TestSecureDispatchServiceAsync.class).in(Singleton.class); 
 	}
 
-//	public TestSecureDispatchModule() {
-//		super(DefaultExceptionHandler.class);
-//	}
-
-//	@Provides
-//	@Singleton
-//	protected DispatchAsync provideDispatchAsync(
-//			ExceptionHandler exceptionHandler,
-//			SecureSessionAccessor secureSessionAccessor,SecureDispatchServiceAsync service) {
-//		return new TestSecureDispatchAsync(exceptionHandler, secureSessionAccessor, service);
-//	}
-//
-//	@Provides
-//	@Singleton
-//	protected SecureDispatchServiceAsync provideSecureDispatchServiceAsync(SecureDispatchService service){
-//		return new TestSecureDispatchServiceAsync(service);
-//	}
-
 }

@@ -1,6 +1,5 @@
 package pmsoft.gwt.sample.server;
 
-import net.customware.gwt.dispatch.client.secure.CookieSecureSessionAccessor;
 import net.customware.gwt.dispatch.server.secure.ScopedSession;
 import net.customware.gwt.dispatch.server.secure.SecureSession;
 import net.customware.gwt.dispatch.server.secure.SecureSessionValidator;
