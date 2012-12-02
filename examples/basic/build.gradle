@@ -1,6 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'jetty'
 
 sourceCompatibility = 1.6
 version = '0.1'
@@ -35,13 +34,16 @@ test {
 	useTestNG()
 	options {
 	}
+	// pass system properties to test
+	systemProperties = System.getProperties()
 }
 
 jar.dependsOn copyClientSource
 
 dependencies {
 	compile project(':gwt-caiman')
+	testCompile project(':gwt-caiman').sourceSets.test.output
 	testCompile group: 'org.testng', name: 'testng', version: '6.1.1'
-    testCompile 'org.slf4j:slf4j-simple:1.6.1'
+    	testCompile 'org.slf4j:slf4j-simple:1.6.1'
 }
 

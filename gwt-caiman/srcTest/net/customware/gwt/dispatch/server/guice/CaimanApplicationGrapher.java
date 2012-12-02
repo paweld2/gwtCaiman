@@ -39,13 +39,17 @@ public class CaimanApplicationGrapher {
 
 		Injector injector = Guice.createInjector(new GrapherModule(),
 				new GraphvizModule());
-		GraphvizRenderer renderer = injector
-				.getInstance(GraphvizRenderer.class);
+		GraphvizRenderer renderer = injector.getInstance(GraphvizRenderer.class);
 		renderer.setOut(out).setRankdir("TB");
 
 		injector.getInstance(InjectorGrapher.class).of(inj).graph();
 
-		PrintWriter outFile = new PrintWriter(new File(filename), "UTF-8");
+		PrintWriter outFile; 
+		if( filename == "-") {
+			outFile = new PrintWriter(System.out);
+		} else {
+			outFile = new PrintWriter(new File(filename), "UTF-8");	
+		}
 		String s = baos.toString("UTF-8");
 		s = fixGrapherBug(s);
 		s = hideClassPaths(s);
