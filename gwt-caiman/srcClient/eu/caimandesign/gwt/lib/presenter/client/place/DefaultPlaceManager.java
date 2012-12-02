@@ -17,8 +17,10 @@ import eu.caimandesign.gwt.lib.presenter.client.api.CaimanActivity;
 import eu.caimandesign.gwt.lib.presenter.client.api.CaimanLogging;
 import eu.caimandesign.gwt.lib.presenter.client.api.CaimanPlace;
 import eu.caimandesign.gwt.lib.presenter.client.infrastructure.PlaceRegistry;
+import eu.caimandesign.gwt.lib.presenter.client.lazyinit.GwtLazy;
+import eu.caimandesign.gwt.lib.presenter.client.lazyinit.GwtLazyRegistry;
 
-public class DefaultPlaceManager implements PlaceManager {
+public class DefaultPlaceManager implements PlaceManager, GwtLazy {
 	private class PlaceEventHandler implements ValueChangeHandler<String>,
 			PlaceRevealedHandler, PlaceChangedHandler {
 
@@ -84,7 +86,8 @@ public class DefaultPlaceManager implements PlaceManager {
 			TokenFormatter tokenFormatter, PlaceRegistry placeRegistry,
 			Provider<PlaceController> providerPlaceController,
 			HistoryApi history,
-			ActivityMachine activityMachine) {
+			ActivityMachine activityMachine,
+			GwtLazyRegistry lazyRegistry) {
 		this.placeRegistry = placeRegistry;
 		this.activityMachine = activityMachine;
 		this.eventBus = eventBus;
@@ -92,27 +95,24 @@ public class DefaultPlaceManager implements PlaceManager {
 		this.providerPlaceController = providerPlaceController;
 		this.history = history;
 		placeMap = new HashMap<Class<? extends CaimanPlace>, PlaceController>();
+		lazyRegistry.addLazy(this);
 	}
+	
+	@Override
+	public void initialize() {
+		logger.config("starting....");
+		PlaceEventHandler handler = new PlaceEventHandler();
 
-	private boolean init = false;
-	private void initialize() {
-		//FIXME TODO initialization cycle
-		if(! init ) {
-			logger.config("starting....");
-			PlaceEventHandler handler = new PlaceEventHandler();
+		// Register ourselves with the History API.
+		this.history.addValueChangeHandler(handler);
 
-			// Register ourselves with the History API.
-			this.history.addValueChangeHandler(handler);
+		// Listen for manual place change events.
+		eventBus.addHandler(PlaceChangedEvent.getType(), handler);
 
-			// Listen for manual place change events.
-			eventBus.addHandler(PlaceChangedEvent.getType(), handler);
+		// Listen for place revelation requests.
+		eventBus.addHandler(PlaceRevealedEvent.getType(), handler);
 
-			// Listen for place revelation requests.
-			eventBus.addHandler(PlaceRevealedEvent.getType(), handler);
-
-			placeRegistry.loadPlaceOnManager(this);
-		}
-		this.init = true;
+		placeRegistry.loadPlaceOnManager(this);		
 	}
 
 	@Override

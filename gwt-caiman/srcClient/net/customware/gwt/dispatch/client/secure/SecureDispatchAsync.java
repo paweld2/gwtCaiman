@@ -10,24 +10,30 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 
-public class SecureDispatchAsync extends AbstractSecureDispatchAsync {
+import eu.caimandesign.gwt.lib.presenter.client.lazyinit.GwtLazy;
+import eu.caimandesign.gwt.lib.presenter.client.lazyinit.GwtLazyRegistry;
+
+public class SecureDispatchAsync extends AbstractSecureDispatchAsync implements GwtLazy {
 
     private static SecureDispatchServiceAsync realService;
 
     private final SecureSessionAccessor secureSessionAccessor;
 
     @Inject
-    public SecureDispatchAsync( ExceptionHandler exceptionHandler, SecureSessionAccessor secureSessionAccessor ) {
+    public SecureDispatchAsync( ExceptionHandler exceptionHandler, SecureSessionAccessor secureSessionAccessor , GwtLazyRegistry registry) {
         super( exceptionHandler ,secureSessionAccessor);
         this.secureSessionAccessor = secureSessionAccessor;
+        registry.addLazy(this);
+    }
+    
+    @Override
+    public void initialize() {
+    	if( realService == null) {
+        	realService = GWT.create( SecureDispatchService.class );    	
+    	}
     }
 
     public <A extends Action<R>, R extends Result> void executeSecure(String sessionId, final A action, final AsyncCallback<R> callback ) {
-    	if( realService == null) {
-    		// TODO FIXME create a live cycle to bind all lazy initializations
-    		realService = GWT.create( SecureDispatchService.class );
-    	}
-    	
 		realService.execute(sessionId, action, new AsyncCallback<Result>() {
 			public void onFailure(Throwable caught) {
 				SecureDispatchAsync.this.onFailure(action, caught, callback);

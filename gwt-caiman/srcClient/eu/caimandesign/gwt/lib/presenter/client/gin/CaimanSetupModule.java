@@ -4,6 +4,8 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.inject.client.AbstractGinModule;
 
+import eu.caimandesign.gwt.lib.presenter.client.lazyinit.GwtLazyRegistry;
+import eu.caimandesign.gwt.lib.presenter.client.lazyinit.GwtLazyRegistryImpl;
 import eu.caimandesign.gwt.lib.presenter.client.place.DefaultPlaceManager;
 import eu.caimandesign.gwt.lib.presenter.client.place.HistoryApi;
 import eu.caimandesign.gwt.lib.presenter.client.place.HistoryClientApi;
@@ -42,6 +44,7 @@ public class CaimanSetupModule extends AbstractGinModule {
 		bind(PlaceManager.class).to(placeManagerClass).asEagerSingleton();
 		bind(HistoryApi.class).to(historyApiClass).asEagerSingleton();
 		bind(EventBus.class).to(SimpleEventBus.class).asEagerSingleton();
+		bind(GwtLazyRegistry.class).to(GwtLazyRegistryImpl.class).asEagerSingleton();
 
 	}
 
