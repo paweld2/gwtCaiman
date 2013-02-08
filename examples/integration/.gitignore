@@ -1,9 +1,0 @@
-gwt-unitCache
-WEB-INF
-.gwt
-*.png
-*.css
-*.gwt.rpc
-.nocache.js
-hosted.html
-war/integration/*
