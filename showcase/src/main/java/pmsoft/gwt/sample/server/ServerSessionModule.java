@@ -1,63 +1,81 @@
 package pmsoft.gwt.sample.server;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.servlet.SessionScoped;
 import net.customware.gwt.dispatch.server.secure.ScopedSession;
 import net.customware.gwt.dispatch.server.secure.SecureSession;
 import net.customware.gwt.dispatch.server.secure.SecureSessionValidator;
 
-import com.google.inject.AbstractModule;
+import javax.servlet.http.HttpSession;
 
 public class ServerSessionModule extends AbstractModule {
 
-	@Override
-	protected void configure() {
-		//FIXME diuplicated config
-		bind(SecureSessionValidator.class).toInstance(
-				new SecureSessionValidator() {
-					@Override
-					public boolean isValid(String sessionId,
-							SecureSession session) {
-						return session.validate(sessionId);
-					}
-				});
-		bind(ScopedSession.class).toInstance(new ScopedSession() {
-			SecureSession session = new SecureSession() {
-				private String sid = "randomSessionId";
-				private boolean login = false;
+    private static class TestSecureSession implements SecureSession{
+        private boolean login = false;
 
-				@Override
-				public boolean validate(String sessionId) {
-					if (sid == null || sessionId == null) {
-						return false;
-					}
-					return sid.compareTo(sessionId) == 0;
-				}
+        private final HttpSession session;
 
-				@Override
-				public String getSessionId() {
-					return sid;
-				}
+        @Inject
+        private TestSecureSession(HttpSession session) {
+            this.session = session;
+        }
 
-				@Override
-				public void login() {
-					login = true;
-				}
+        @Override
+        public boolean validate(String sessionId) {
+            return session.getId() == sessionId;
+        }
 
-				@Override
-				public void logout() {
-					login = false;
-				}
+        @Override
+        public String getSessionId() {
+            return null;
+        }
 
-				@Override
-				public boolean isUserLogin() {
-					return login;
-				}
-			};
 
-			@Override
-			public SecureSession getSession() {
-				return session;
-			}
-		});
-	}
+        @Override
+        public void login() {
+            login = true;
+        }
+
+        @Override
+        public void logout() {
+            login = false;
+        }
+
+        @Override
+        public boolean isUserLogin() {
+            return login;
+        }
+    };
+
+    private static class TestScopedSession implements ScopedSession {
+        private final Provider<SecureSession> sessionProvider;
+
+        @Inject
+        private TestScopedSession(Provider<SecureSession> sessionProvider) {
+            this.sessionProvider = sessionProvider;
+        }
+
+        @Override
+        public SecureSession getSession() {
+            return sessionProvider.get();
+        }
+    }
+
+    @Override
+    protected void configure() {
+        //FIXME diuplicated config
+        bind(SecureSessionValidator.class).toInstance(
+                new SecureSessionValidator() {
+                    @Override
+                    public boolean isValid(String sessionId,
+                                           SecureSession session) {
+                        return session.validate(sessionId);
+                    }
+                });
+        bind(ScopedSession.class).to(TestScopedSession.class);
+        bind(SecureSession.class).to(TestSecureSession.class).in(SessionScoped.class);
+    }
 
 }

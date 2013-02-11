@@ -10,6 +10,7 @@ import net.customware.gwt.dispatch.shared.ar.Result;
  * if any part of the action handler fails.
  * 
  * @author David Peterson
+ * @author Paweł Cesar Sanjuan Szklarz
  */
 public interface ExecutionContext {
     /**

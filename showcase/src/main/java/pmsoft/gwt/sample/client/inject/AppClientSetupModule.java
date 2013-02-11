@@ -27,7 +27,7 @@ public class AppClientSetupModule extends AbstractGinModule {
 		install(new CaimanSetupModule());
 		install(new SecureDispatchModule());
 		
-		bind(SecureSessionAccessor.class).to(CookieSecureSessionAccessor.class);
+
 		bind(RootLayout.class).to(AppRootPanel.class).asEagerSingleton();
 		bind(LoginView.class).to(LoginViewUI.class);
 		bind(AppMainLayout.class).to(AppMainLayoutUi.class).in(Singleton.class);

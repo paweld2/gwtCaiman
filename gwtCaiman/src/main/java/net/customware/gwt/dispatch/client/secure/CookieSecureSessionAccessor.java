@@ -9,14 +9,9 @@ public class CookieSecureSessionAccessor implements SecureSessionAccessor {
 
     @Inject
     public CookieSecureSessionAccessor() {
-    	//FIXME make something easy to use
-    	this.cookieName = "defaultCookieName";
+    	this.cookieName = "JSESSIONID";
     }
     
-    public CookieSecureSessionAccessor( String cookieName ) {
-        this.cookieName = cookieName;
-    }
-
     public boolean clearSessionId() {
         if ( Cookies.getCookie( cookieName ) != null ) {
             Cookies.removeCookie( cookieName );

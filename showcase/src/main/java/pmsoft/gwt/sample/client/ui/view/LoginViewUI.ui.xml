@@ -4,10 +4,9 @@
 	<ui:style>
 	</ui:style>
 	<g:HTMLPanel>
-
 		<g:TextBox ui:field="login" />
 		<g:PasswordTextBox ui:field="password" />
-		<g:Button ui:field="send" />
+		<g:Button ui:field="send" text="login"/>
 		<g:Label ui:field="error"></g:Label>
 	</g:HTMLPanel>
 </ui:UiBinder> 
